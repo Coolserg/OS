@@ -1,2 +1,2 @@
 # OS
-Operating system
+Micro operating system 
