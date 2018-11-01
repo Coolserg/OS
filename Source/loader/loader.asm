@@ -20,12 +20,12 @@ jmp CODE_D:goToProtected
 ret
 
 loadKernel:
-    mov al,2
+    mov al,4
     mov cl,2
     mov bx,0x8000
     call read_proc
 
-    mov al,4
+    mov al,5
     mov cl,1
     mov bx,0x9000
     call read_proc

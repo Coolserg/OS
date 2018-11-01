@@ -7,12 +7,13 @@ void drawCircle(int x_center, int y_center, int r, int color);
 void drawSymbol(int symbol, int x, int y, int size, int color);
 void LoadScreen();
 
-#define ARRAY_SIZE 3
-#define ARRAY_ROW 7
-#define ARRAY_FIELD 5
+#define ARRAY_SYMBOLS_SIZE 3
+#define ARRAY_SYMBOLS_ROW 7
+#define ARRAY_SYMBOLS_FIELD 5
 
 int _start() {
 	LoadScreen();
+	drawFillRectangle(20, 30, 20, 20, 0xFFFFFF);
 	while(1);
 }
 
@@ -28,7 +29,8 @@ void LoadScreen() {
 	drawFillRectangle(487, 384, 20, 20, 0xFFFFFF);
 	pause(200);
 	drawFillRectangle(512, 384, 20, 20, 0xF754E1);
-	pause(500);	
+	pause(500);
+	drawSymbol(0, 20, 30, 50, 0xFFFFFF);
 }
 
 void setPixel(int x, int y, int color) {
@@ -36,6 +38,13 @@ void setPixel(int x, int y, int color) {
 	asm("mov dword ptr[ebp-4], esi");
 	address += ((y * 1024) + x) * 3;
 	*(int*)address=*(int*)&color;
+}
+
+void drawSymbol(int symbol, int x, int y, int size, int color) {
+	int *address = (int*)0x9000 + (symbol * (ARRAY_SYMBOLS_ROW * ARRAY_SYMBOLS_FIELD));
+	if(*address == 1) {
+		drawFillRectangle(x, y, size, size, color);
+	}
 }
 
 void bkColor(int color) {
