@@ -41,7 +41,7 @@ void setPixel(int x, int y, int color) {
 }
 
 void drawSymbol(int symbol, int x, int y, int size, int color) {
-	int *address = (int*)0x9000 + (symbol * (ARRAY_SYMBOLS_ROW * ARRAY_SYMBOLS_FIELD));
+	int *address = (char*)0x9000 + (symbol * (ARRAY_SYMBOLS_ROW * ARRAY_SYMBOLS_FIELD));
 	if(*address == 1) {
 		drawFillRectangle(x, y, size, size, color);
 	} else {
