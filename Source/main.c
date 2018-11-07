@@ -6,6 +6,7 @@ void drawLine(int x1, int y1, int x2, int y2, int color);
 void drawCircle(int x_center, int y_center, int r, int color);
 void drawSymbol(int symbol, int x, int y, int size, int color);
 void LoadScreen();
+void LoadScreenSortArray();
 
 #define ARRAY_SYMBOLS_SIZE 3
 #define ARRAY_SYMBOLS_ROW 7
@@ -13,7 +14,6 @@ void LoadScreen();
 
 int _start() {
 	LoadScreen();
-	drawFillRectangle(20, 30, 20, 20, 0xFFFFFF);
 	while(1);
 }
 
@@ -27,11 +27,18 @@ void LoadScreen() {
 	drawFillRectangle(512, 359, 20, 20, 0xFFFFFF);
 	pause(200);
 	drawFillRectangle(487, 384, 20, 20, 0xFFFFFF);
-	pause(200);
-	drawFillRectangle(512, 384, 20, 20, 0xF754E1);
+	for(int i = 0; i < 10; i++) {
+		if(i % 2 == 0) {
+			drawFillRectangle(512, 384, 20, 20, 0xFFFFFF);
+		} else {
+			drawFillRectangle(512, 384, 20, 20, 0xF754E1);
+		}
+		pause(50);
+	}
 	pause(500);
-	drawSymbol(0, 20, 30, 50, 0xFFFFFF);
+	drawSymbol(2, 20, 5, 5, 0xFFFFFF);
 }
+
 
 void setPixel(int x, int y, int color) {
 	char *address;
@@ -41,18 +48,27 @@ void setPixel(int x, int y, int color) {
 }
 
 void drawSymbol(int symbol, int x, int y, int size, int color) {
-	int *address = (char*)0x9000 + (symbol * (ARRAY_SYMBOLS_ROW * ARRAY_SYMBOLS_FIELD));
-	if(*address == 1) {
-		drawFillRectangle(x, y, size, size, color);
-	} else {
-		drawFillRectangle(x, y, size, size, 0xF754E1);
+	//int *address = (int*)0x9000 + (symbol * (ARRAY_SYMBOLS_ROW * ARRAY_SYMBOLS_FIELD));
+	char *address = 0x9000 + (symbol * (ARRAY_SYMBOLS_ROW * ARRAY_SYMBOLS_FIELD));
+	int pos_x = x;
+	int pos_y = y;
+	for(int i = 0; i < ARRAY_SYMBOLS_FIELD; i++) {
+		for(int j = 0; j < ARRAY_SYMBOLS_ROW; j++) {
+			if(*address) {
+				drawFillRectangle(pos_x, pos_y, size, size, color);
+			}
+			pos_y += size;
+			address++;
+		}
+		pos_x += size;
+		pos_y = y;
 	}
 }
 
 void bkColor(int color) {
-	for(int i = 0; i < 1024; i++) {
-		for(int j = 0; j < 768; j++) {
-			setPixel(i, j, color);
+	for(int i = 0; i < 768; i++) {
+		for(int j = 0; j < 1024; j++) {
+			setPixel(j, i, color);
 		}
 	}	
 }

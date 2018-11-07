@@ -25,8 +25,8 @@ loadKernel:
     mov bx,0x8000
     call read_proc
 
-    mov al,5
-    mov cl,2
+    mov al,1
+    mov cl,6
     mov bx,0x9000
     call read_proc
 ret

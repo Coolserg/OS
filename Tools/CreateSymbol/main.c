@@ -3,7 +3,8 @@
 #define ARRAY_ROW 7
 #define ARRAY_FIELD 5
 
-const int symbols[ARRAY_SIZE][ARRAY_ROW][ARRAY_FIELD] = {
+
+const long int symbols[ARRAY_SIZE][ARRAY_ROW][ARRAY_FIELD] = {
 	{ //NULL
 		{1, 1, 1, 1, 1},
 		{1, 1, 1, 1, 1},
